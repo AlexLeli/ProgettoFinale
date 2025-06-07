@@ -6,4 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Entities\CoreBusiness.csproj" />
+    <ProjectReference Include="..\Plugins\PluginsInMemory\PluginsInMemory.csproj" />
+    <ProjectReference Include="..\UseCases\UseCases.csproj" />
+  </ItemGroup>
+
 </Project>

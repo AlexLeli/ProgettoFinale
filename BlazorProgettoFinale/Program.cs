@@ -1,4 +1,8 @@
 using BlazorProgettoFinale.Components;
+using PluginsInMemory;
+using UseCases.Interfaces;
+using UseCases.Inventories;
+using UseCases.Inventories.Interfaces;
 
 namespace BlazorProgettoFinale
 {
@@ -10,6 +14,8 @@ namespace BlazorProgettoFinale
 
             // Add services to the container.
             builder.Services.AddRazorComponents();
+            builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
+            builder.Services.AddTransient<IViewInventoriesByNameUseCase, ViewInventoriesByNameUseCase>();
 
             var app = builder.Build();
 

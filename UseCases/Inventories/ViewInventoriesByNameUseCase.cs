@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UseCases.Interfaces;
+using UseCases.Inventories.Interfaces;
 
 namespace UseCases.Inventories
 {
-    public class ViewInventoriesByNameUseCase
+    public class ViewInventoriesByNameUseCase : IViewInventoriesByNameUseCase
     {
         public readonly IInventoryRepository inventoryRepository;
 
-        
-        public ViewInventoriesByNameUseCase(IInventoryRepository inventoryRepository) 
+
+        public ViewInventoriesByNameUseCase(IInventoryRepository inventoryRepository)
         {
             this.inventoryRepository = inventoryRepository;
         }
