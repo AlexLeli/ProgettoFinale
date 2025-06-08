@@ -9,19 +9,19 @@ using UseCases.Inventories.Interfaces;
 
 namespace UseCases.Inventories
 {
-    public class UpdateInventoryUseCase : IUpdateInventoryUseCase
+    public class DeleteInventoryUseCase : IDeleteInventoryUseCase
     {
         public readonly IInventoryRepository inventoryRepository;
 
 
-        public UpdateInventoryUseCase(IInventoryRepository inventoryRepository)
+        public DeleteInventoryUseCase(IInventoryRepository inventoryRepository)
         {
             this.inventoryRepository = inventoryRepository;
         }
 
-        public async Task ExecuteAsync(Inventory inventory)
+        public async Task ExecuteAsync(int inventoryId)
         {
-            await inventoryRepository.UpdateInventoryAsync(inventory);
+            await inventoryRepository.DeleteInventoryByIdAsync(inventoryId);
         }
     }
 }

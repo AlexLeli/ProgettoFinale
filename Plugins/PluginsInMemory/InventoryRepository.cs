@@ -57,5 +57,21 @@ namespace PluginsInMemory
 
             return _inventories.Where(x => x.InventoryName.Contains(name, StringComparison.OrdinalIgnoreCase));
         }
+
+        public async Task<Inventory> GetInventoryByIdAsync(int inventoryId)
+        {
+            return await Task.FromResult(_inventories.FirstOrDefault(x => x.InventoryId == inventoryId));
+        }
+
+        public Task DeleteInventoryByIdAsync(int inventoryId)
+        {
+            var inventoryToDelete = _inventories.FirstOrDefault(x => x.InventoryId == inventoryId);
+            if (inventoryToDelete is not null)
+            {
+                _inventories.Remove(inventoryToDelete);
+            }
+            return Task.CompletedTask;
+        }
+
     }
 }

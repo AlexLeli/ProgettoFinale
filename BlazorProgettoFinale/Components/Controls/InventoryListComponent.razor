@@ -7,6 +7,7 @@
             <th>Quantity</th>
             <th>Price</th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -14,7 +15,7 @@
         {
             foreach (var inventory in inventories)
             {
-               <InventoryListItemComponent Inventory="inventory"></InventoryListItemComponent>
+                <InventoryListItemComponent Inventory="inventory"></InventoryListItemComponent>
             }
         }
     </tbody>
@@ -24,8 +25,11 @@
 @code {
     private List<Inventory>? inventories;
 
-    protected override async Task OnInitializedAsync()
+    [Parameter]
+    public string? SearchInventoryFilter { get; set; }
+
+    protected override async Task OnParametersSetAsync()
     {
-        inventories = (await viewInventoriesByName.ExecuteAsync()).ToList();
+        inventories = (await viewInventoriesByName.ExecuteAsync(SearchInventoryFilter ?? string.Empty)).ToList();
     }
 }
