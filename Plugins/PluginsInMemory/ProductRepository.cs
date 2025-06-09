@@ -18,34 +18,34 @@ namespace PluginsInMemory
             };
         }
 
-        public Task AddProductAsync(Product Product)
+        public Task AddProductAsync(Product product)
         {
-            if (_products.Any(x => x.ProductName.Equals(Product.ProductName, StringComparison.OrdinalIgnoreCase)))
+            if (_products.Any(x => x.ProductName.Equals(product.ProductName, StringComparison.OrdinalIgnoreCase)))
                 {
                     return Task.CompletedTask; 
                 }
             
             var maxId = _products.Max(x => x.ProductId);
-            Product.ProductId = maxId + 1;
-            _products.Add(Product);
+            product.ProductId = maxId + 1;
+            _products.Add(product);
             return Task.CompletedTask;
         }
 
-        public Task UpdateProductAsync(Product Product)
+        public Task UpdateProductAsync(Product product)
         {
-            if (_products.Any(x => x.ProductId != Product.ProductId && x.ProductName.Equals(Product.ProductName,StringComparison.OrdinalIgnoreCase)))
+            if (_products.Any(x => x.ProductId != product.ProductId && x.ProductName.Equals(product.ProductName,StringComparison.OrdinalIgnoreCase)))
             {
                 return Task.CompletedTask;
             }
 
-            var ProductToUpdate = _products.FirstOrDefault(x => x.ProductId == Product.ProductId);
-            if (ProductToUpdate is null)
+            var productToUpdate = _products.FirstOrDefault(x => x.ProductId == product.ProductId);
+            if (productToUpdate is null)
                 {
                     return Task.CompletedTask;
                 }
-            ProductToUpdate.ProductName = Product.ProductName;
-            ProductToUpdate.Quantity = Product.Quantity;
-            ProductToUpdate.Price = Product.Price;
+            productToUpdate.ProductName = product.ProductName;
+            productToUpdate.Quantity = product.Quantity;
+            productToUpdate.Price = product.Price;
             return Task.CompletedTask;
 
 
@@ -58,17 +58,49 @@ namespace PluginsInMemory
             return _products.Where(x => x.ProductName.Contains(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        public async Task<Product> GetProductByIdAsync(int ProductId)
+        public async Task<Product?> GetProductByIdAsync(int productId)
         {
-            return await Task.FromResult(_products.FirstOrDefault(x => x.ProductId == ProductId));
+            var product = _products.FirstOrDefault(x => x.ProductId == productId);
+            var newProduct = new Product();
+            if (product != null)
+            {
+                newProduct.ProductId = product.ProductId;
+                newProduct.ProductName = product.ProductName;
+                newProduct.Price = product.Price;
+                newProduct.Quantity = product.Quantity;
+                newProduct.ProductInventory = new List<ProductInventory>();
+                if (product.ProductInventory != null && product.ProductInventory.Count > 0)
+                {
+                    foreach (var productInventory in product.ProductInventory)
+                    {
+                        var newProductInventary = new ProductInventory
+                        {
+                            InventoryId = productInventory.InventoryId,
+                            ProductId = productInventory.ProductId,
+                            Product = product,
+                            Inventory = new Inventory(),
+                            InventoryQuantity = productInventory.InventoryQuantity
+                        };
+                        if (productInventory != null)
+                        {
+                            newProductInventary.Inventory.InventoryId = productInventory.Inventory.InventoryId;
+                            newProductInventary.Inventory.InventoryName = productInventory.Inventory.InventoryName;
+                            newProductInventary.Inventory.Price = productInventory.Inventory.Price;
+                            newProductInventary.Inventory.Quantity = productInventory.Inventory.Quantity;
+                        }
+
+                        newProduct.ProductInventory.Add(newProductInventary);
+                    }
+                }
+            }
         }
 
-        public Task DeleteProductByIdAsync(int ProductId)
+        public Task DeleteProductByIdAsync(int productId)
         {
-            var ProductToDelete = _products.FirstOrDefault(x => x.ProductId == ProductId);
-            if (ProductToDelete is not null)
+            var productToDelete = _products.FirstOrDefault(x => x.ProductId == productId);
+            if (productToDelete is not null)
             {
-                _products.Remove(ProductToDelete);
+                _products.Remove(productToDelete);
             }
             return Task.CompletedTask;
         }

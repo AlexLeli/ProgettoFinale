@@ -8,20 +8,20 @@ using UseCases.Interfaces;
 using UseCases.Products.Interfaces;
 
 namespace UseCases.Products
-{ 
-    public class DeleteProductUseCase : IDeleteProductUseCase
+{
+    public class AddProductUseCase : IAddProductUseCase
     {
         public readonly IProductRepository productRepository;
 
 
-        public DeleteProductUseCase(IProductRepository productRepository)
+        public AddProductUseCase(IProductRepository productRepository)
         {
             this.productRepository = productRepository;
         }
 
-        public async Task ExecuteAsync(int productId)
+        public async Task ExecuteAsync(Product product)
         {
-            await productRepository.DeleteProductByIdAsync(productId);
+            await productRepository.AddProductAsync(product);
         }
     }
 }

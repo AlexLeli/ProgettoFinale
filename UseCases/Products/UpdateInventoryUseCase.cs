@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 using UseCases.Interfaces;
 using UseCases.Products.Interfaces;
 
+
 namespace UseCases.Products
-{ 
-    public class DeleteProductUseCase : IDeleteProductUseCase
+{
+    public class UpdateProductUseCase : IUpdateProductUseCase
     {
         public readonly IProductRepository productRepository;
 
 
-        public DeleteProductUseCase(IProductRepository productRepository)
+        public UpdateProductUseCase(IProductRepository productRepository)
         {
             this.productRepository = productRepository;
         }
 
-        public async Task ExecuteAsync(int productId)
+        public async Task ExecuteAsync(Product product)
         {
-            await productRepository.DeleteProductByIdAsync(productId);
+            await productRepository.UpdateProductAsync(product);
         }
     }
 }

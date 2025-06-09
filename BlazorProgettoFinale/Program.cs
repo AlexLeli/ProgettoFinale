@@ -27,9 +27,9 @@ namespace BlazorProgettoFinale
 
             builder.Services.AddSingleton<IProductRepository, ProductRepository>();
             builder.Services.AddTransient<IViewProductsByNameUseCase, ViewProductsByNameUseCase>();
-            //builder.Services.AddTransient<IAddProductUseCase, AddProductUseCase>();
-            //builder.Services.AddTransient<IUpdateProductUseCase, UpdateProductUseCase>();
-            //builder.Services.AddTransient<IViewProductByIdUseCase, ViewProductByIdUseCase>();
+            builder.Services.AddTransient<IAddProductUseCase, AddProductUseCase>();
+            builder.Services.AddTransient<IUpdateProductUseCase, UpdateProductUseCase>();
+            builder.Services.AddTransient<IViewProductByIdUseCase, ViewProductByIdUseCase>();
             builder.Services.AddTransient<IDeleteProductUseCase, DeleteProductUseCase>();
 
 

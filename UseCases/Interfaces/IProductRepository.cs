@@ -12,7 +12,7 @@ namespace UseCases.Interfaces
         Task<IEnumerable<Product>> GetProductsByNameAsync(string name);
         Task AddProductAsync(Product product);
         Task UpdateProductAsync(Product product);
-        Task<Product> GetProductByIdAsync(int productId);
+        Task<Product?> GetProductByIdAsync(int productId);
         Task DeleteProductByIdAsync(int productId);
     }
 }
