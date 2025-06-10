@@ -33,7 +33,7 @@ namespace PluginsInMemory
 
         public Task UpdateProductAsync(Product product)
         {
-            if (_products.Any(x => x.ProductId != product.ProductId && x.ProductName.Equals(product.ProductName,StringComparison.OrdinalIgnoreCase)))
+            if (_products.Any(x => x.ProductId != product.ProductId && x.ProductName.ToLower() == product.ProductName.ToLower()))
             {
                 return Task.CompletedTask;
             }
@@ -46,6 +46,7 @@ namespace PluginsInMemory
             productToUpdate.ProductName = product.ProductName;
             productToUpdate.Quantity = product.Quantity;
             productToUpdate.Price = product.Price;
+            productToUpdate.ProductInventory = product.ProductInventory;
             return Task.CompletedTask;
 
 
@@ -93,6 +94,8 @@ namespace PluginsInMemory
                     }
                 }
             }
+
+            return await Task.FromResult(newProduct);
         }
 
         public Task DeleteProductByIdAsync(int productId)

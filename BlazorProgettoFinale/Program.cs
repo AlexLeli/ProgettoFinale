@@ -1,5 +1,7 @@
 using BlazorProgettoFinale.Components;
 using PluginsInMemory;
+using UseCases.Activities;
+using UseCases.Activities.Interfaces;
 using UseCases.Interfaces;
 using UseCases.Inventories;
 using UseCases.Inventories.Interfaces;
@@ -32,6 +34,8 @@ namespace BlazorProgettoFinale
             builder.Services.AddTransient<IViewProductByIdUseCase, ViewProductByIdUseCase>();
             builder.Services.AddTransient<IDeleteProductUseCase, DeleteProductUseCase>();
 
+            builder.Services.AddSingleton<IInventoryTransactionRepository, InventoryTransactionRepository>();
+            builder.Services.AddTransient<IPurchaseInventoryUseCase, PurchaseInventoryUseCase>();
 
             var app = builder.Build();
 
