@@ -1,5 +1,60 @@
-﻿<h3>PurchaseInventory</h3>
+﻿@page "/purchase"
+@using BlazorProgettoFinale.ViewModels
+
+@rendermode InteractiveServer
+@inject IViewInventoriesByNameUseCase viewInventoriesByNameUseCase
+@inject IViewInventoryByIdUseCase viewInventoryByIdUseCase
+
+<h3>PurchaseInventory</h3>
+<br />
+
+<EditForm Model = "purchaseViewModel" OnValidSubmit="Purchase">
+	<DataAnnotationsValidator></DataAnnotationsValidator>
+	<ValidationSummary>
+
+		<div class="form-group">
+			<label for="po">Purchase Order #</label>
+			<InputText id="po" @bind-Value="purchaseViewModel.PONumber" class="form-control"></InputText>
+		</div>
+		<br />
+		<div class="card">
+			<div class="card-body">
+				<div class="form-group">
+					<AutoCompleteComponent Label="Inventory to Purchase"
+										   SearchFunction="SearchInventory"
+										   OnItemSelected="HandleItemSelected">
+					</AutoCompleteComponent>
+					@if (purchaseViewModel.InventoryPrice > 0)
+					{
+						<text>Price:</text>
+						@purchaseViewModel.InventoryPrice.ToString("c")
+					}
+				</div>
+			</div>
+		</div>
+
+		
+	</ValidationSummary>
+</EditForm>
+
+
 
 @code {
+	private PurchaseViewModel purchaseViewModel = new PurchaseViewModel();
 
+
+	private List<ItemViewModel>? SearchInventory (string name)
+	{
+		var list = viewInventoriesByNameUseCase.ExecuteAsync(name).GetAwaiter().GetResult();
+
+		if (list is null) return null;
+
+		return list.Select(x => new ItemViewModel { Id = x.InventoryId, Name = x.InventoryName})?.ToList();
+	}
+
+	private async Task HandleItemSelected(ItemViewModel item)
+	{
+		this.purchaseViewModel.InventoryId = item.Id;
+		this.purchaseViewModel.InventoryPrice = (await viewInventoryByIdUseCase.ExecuteAsync(item.Id)).Price;
+	}
 }
