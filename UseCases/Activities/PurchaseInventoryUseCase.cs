@@ -26,7 +26,7 @@ namespace UseCases.Activities
             await inventoryTransactionRepository.PurchaseAsync(poNumber, inventory, quantity, doneBy, inventory.Price);
             //increase the quantity
             inventory.Quantity += quantity;
-            await this.inventoryRepository
+            await this.inventoryRepository.UpdateInventoryAsync(inventory);
         }
     }
 }
