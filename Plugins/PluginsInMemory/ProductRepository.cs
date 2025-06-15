@@ -11,10 +11,8 @@ namespace PluginsInMemory
         {
             _products = new List<Product>()
             {
-                new Product { ProductId = 1, ProductName = "Bike Seat", Quantity = 10, Price = 2 },
-                new Product { ProductId = 2, ProductName = "Bike Body", Quantity = 10, Price = 15 },
-                new Product { ProductId = 3, ProductName = "Bike Wheels", Quantity = 20, Price = 8 },
-                new Product { ProductId = 4, ProductName = "Bike Pedels", Quantity = 20, Price = 1 },
+                new Product { ProductId = 1, ProductName = "Car", Quantity = 10, Price = 5000 },
+                new Product { ProductId = 2, ProductName = "Bike", Quantity = 20, Price = 150 }
             };
         }
 
