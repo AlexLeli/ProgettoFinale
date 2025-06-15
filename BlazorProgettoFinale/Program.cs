@@ -37,6 +37,10 @@ namespace BlazorProgettoFinale
             builder.Services.AddSingleton<IInventoryTransactionRepository, InventoryTransactionRepository>();
             builder.Services.AddTransient<IPurchaseInventoryUseCase, PurchaseInventoryUseCase>();
 
+            builder.Services.AddSingleton<IProductTransactionRepository, ProductTransactionRepository>();
+            builder.Services.AddTransient<IProduceProductUseCase, ProduceProductUseCase>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
