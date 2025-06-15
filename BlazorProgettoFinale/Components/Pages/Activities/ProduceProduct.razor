@@ -3,6 +3,8 @@
 
 @rendermode InteractiveServer
 
+@inject IJSRuntime JSRuntime
+
 @inject IViewProductsByNameUseCase viewProductsByNameUseCase
 @inject IViewProductByIdUseCase viewProductByIdUseCase
 @inject IProduceProductUseCase produceProductUseCase
@@ -43,6 +45,16 @@
 @code {
     private ProduceViewModel produceViewModel = new ProduceViewModel();
     private Product? selectedProduct;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (firstRender)
+        {
+            JSRuntime.InvokeVoidAsync("preventFormSubmission", "produce-form");
+        }
+    }
 
     private List<ItemViewModel>? SearchProduct(string name)
     {

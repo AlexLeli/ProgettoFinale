@@ -3,6 +3,9 @@
 
 
 @rendermode InteractiveServer
+
+@inject IJSRuntime JSRuntime
+
 @inject IViewInventoriesByNameUseCase viewInventoriesByNameUseCase
 @inject IViewInventoryByIdUseCase viewInventoryByIdUseCase
 @inject IPurchaseInventoryUseCase purchaseInventoryUseCase
@@ -23,8 +26,8 @@
         <div class="card-body">
             <div class="form-group">
                 <AutoCompleteComponent Label="Inventory to Purchase"
-                                       SearchFunction="SearchInventory"
-                                       OnItemSelected="HandleItemSelected"></AutoCompleteComponent>
+                SearchFunction="SearchInventory"
+                OnItemSelected="HandleItemSelected"></AutoCompleteComponent>
                 @if (purchaseViewModel.InventoryPrice > 0)
                 {
                     <text>Price:</text>
@@ -46,12 +49,22 @@
 
 
 @code {
-	private PurchaseViewModel purchaseViewModel = new PurchaseViewModel();
+    private PurchaseViewModel purchaseViewModel = new PurchaseViewModel();
 
-	private Inventory? selectedInventory = null;
+    private Inventory? selectedInventory = null;
 
-	private List<ItemViewModel>? SearchInventory (string name)
-	{
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (firstRender)
+        {
+            JSRuntime.InvokeVoidAsync("preventFormSubmission", "purchase-form");
+        }
+    }
+
+    private List<ItemViewModel>? SearchInventory (string name)
+    {
 		var list = viewInventoriesByNameUseCase.ExecuteAsync(name).GetAwaiter().GetResult();
 
 		if (list is null) return null;
