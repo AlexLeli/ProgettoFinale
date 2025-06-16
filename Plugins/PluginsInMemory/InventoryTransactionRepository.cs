@@ -39,7 +39,8 @@ namespace PluginsInMemory
                             QuantityAfter = it.QuantityAfter,
                             TransactionDate = it.TransactionDate,
                             DoneBy = it.DoneBy,
-                            UnitPrice = it.UnitPrice
+                            UnitPrice = it.UnitPrice,
+                            ProductionNumber = it.ProductionNumber
 
                         };
 
@@ -57,6 +58,7 @@ namespace PluginsInMemory
                 QuantityAfter = inventory.Quantity - quantityToConsume,
                 TransactionDate = DateTime.UtcNow,
                 UnitPrice = price,
+                DoneBy = doneBy
 
             });
 

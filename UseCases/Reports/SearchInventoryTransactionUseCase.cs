@@ -22,5 +22,6 @@ namespace UseCases.Reports
             if (dateTo.HasValue) dateTo = dateTo.Value.AddDays(1);
             return await this.inventoryTransactionRepository.GetInventoryTransactionAsync(inventoryName, dateFrom, dateTo, transactionType);
         }
+        
     }
 }
