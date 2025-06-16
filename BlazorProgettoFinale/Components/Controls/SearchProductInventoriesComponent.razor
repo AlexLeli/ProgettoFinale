@@ -14,7 +14,7 @@
 			@foreach (var inv in inventories)
 			{
 				<li @key="inv.InventoryId"
-				    @onclick="() => { HandleSelectInventory(inv);}"
+				@onclick="() => { HandleSelectInventory(inv);}"
 				>
 					@inv.InventoryName
 				</li>
@@ -51,5 +51,6 @@
 	{
 		await OnInventorySelected.InvokeAsync(inventory);
 		inventories.Clear();
+		_searchFilter = null;
 	}
 }

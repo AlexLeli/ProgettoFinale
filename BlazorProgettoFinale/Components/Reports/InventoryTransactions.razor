@@ -1,0 +1,38 @@
+﻿@page "/inventoryreport"
+
+<h3>Inventory Transactions</h3>
+<br />
+
+<div class="row">
+	<div class="col">
+		<label for="inv">Inventory Name</label>
+		<input type="text" id="inv" class="form-control" @bind-value="invName" />
+	</div>
+
+	<div class="col">
+		<label for="df">Date From</label>
+		<input type="date" id="df" class="form-control" @bind-value="dateFrom" />
+	</div>
+
+	<div class="col">
+		<label for="dt">Date To</label>
+		<input type="date" id="dt" class="form-control" @bind-value="dateTo" />
+	</div>
+
+	<div class="col">
+		<label for="at">Activity Type</label>
+		<select id="at" class="form-control" @bind="activityTypeId">
+			<option id="0"></option>
+			<option id="1">Purchase Inventory</option>
+			<option id="2">Produce Product</option>
+		</select>
+	</div>
+
+	<div class="col">
+		<label>&nbsp;</label>
+		<button type="button" class="btn btn-primary form-control" @onclick="SearchInventories">Search</button> 
+	</div>
+</div>
+@code {
+
+}

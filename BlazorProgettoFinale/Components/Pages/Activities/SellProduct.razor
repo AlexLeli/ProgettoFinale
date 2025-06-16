@@ -1,5 +1,6 @@
-﻿@page "/produce"
-@using static BlazorProgettoFinale.Components.Controls.Common.AutoCompleteComponent
+﻿@using static BlazorProgettoFinale.Components.Controls.Common.AutoCompleteComponent
+
+@page "/sell"
 
 @rendermode InteractiveServer
 
@@ -7,21 +8,20 @@
 
 @inject IViewProductsByNameUseCase viewProductsByNameUseCase
 @inject IViewProductByIdUseCase viewProductByIdUseCase
-@inject IProduceProductUseCase produceProductUseCase
+@inject ISellProductUseCase sellProductUseCase
 
-<h3>Produce Product</h3>
+<h3>Sell Product</h3>
 <br />
-
-<EditForm id="produce-form" Model="produceViewModel" OnValidSubmit="Produce">
+<EditForm id="sell-form" Model="sellViewModel" OnValidSubmit="Sell">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <ValidationSummary></ValidationSummary>
 
     <div class="form-group">
         
         <div class="input-group">
-            <span class="input-group-text">PROD_Order#</span>
+            <span class="input-group-text">SELL_Order#</span>
             <InputText id="po"
-                       @bind-Value="produceViewModel.ProductionNumber"
+                       @bind-Value="sellViewModel.SalesOrderNumber"
                        class="form-control">
             </InputText>
         </div>
@@ -30,7 +30,7 @@
     <div class="card">
         <div class="card-body">
             <div class="form-group">
-                <AutoCompleteComponent Label="Product to Produce"
+                <AutoCompleteComponent Label="Product to Sell"
                 SearchFunction="SearchProduct"
                 OnItemSelected="HandleItemSelected"></AutoCompleteComponent>
 
@@ -41,15 +41,20 @@
     <br />
     <div class="form-group">
         <label for="qty">Quantity</label>
-        <InputNumber id="qty" @bind-Value="produceViewModel.QuantityToProduce" class="form-control"></InputNumber>
+        <InputNumber id="qty" @bind-Value="sellViewModel.QuantityToSell" class="form-control"></InputNumber>
     </div>
     <br />
-    <button type="submit" class="btn btn-primary">Produce</button>
+    <div class="form-group">
+        <label for="price">Unit Price €</label>
+        <InputNumber id="price" @bind-Value="sellViewModel.UnitPrice" class="form-control"></InputNumber>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Sell</button>
 </EditForm>
 
 
 @code {
-    private ProduceViewModel produceViewModel = new ProduceViewModel();
+    private SellViewModel sellViewModel = new SellViewModel();
     private Product? selectedProduct;
 
     protected override void OnAfterRender(bool firstRender)
@@ -58,7 +63,7 @@
 
         if (firstRender)
         {
-            JSRuntime.InvokeVoidAsync("preventFormSubmission", "produce-form");
+            JSRuntime.InvokeVoidAsync("preventFormSubmission", "sell-form");
         }
     }
 
@@ -75,22 +80,18 @@
     {
         selectedProduct = await viewProductByIdUseCase.ExecuteAsync(item.Id);
 
-        this.produceViewModel.ProductId = item.Id;
-        this.produceViewModel.Product = this.selectedProduct;
+        this.sellViewModel.ProductId = item.Id;
+        this.sellViewModel.Product = this.selectedProduct;
+
+        this.sellViewModel.UnitPrice = this.selectedProduct.Price;
 
     }
 
-    private async Task Produce()
+    private async Task Sell()
     {
+        await sellProductUseCase.ExecuteAsync(this.sellViewModel.SalesOrderNumber, this.selectedProduct, this.sellViewModel.QuantityToSell, this.sellViewModel.UnitPrice, "Frank");
 
-        await produceProductUseCase.ExecuteAsync(
-        this.produceViewModel.ProductionNumber,
-        selectedProduct,
-        this.produceViewModel.QuantityToProduce,
-        "Frank"
-        );
-
-        this.produceViewModel = new ProduceViewModel();
+        this.sellViewModel = new SellViewModel();
         this.selectedProduct = null;
 
 

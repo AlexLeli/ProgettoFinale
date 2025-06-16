@@ -18,8 +18,14 @@
     <ValidationSummary></ValidationSummary>
 
     <div class="form-group">
-        <label for="po">Purchase Order #</label>
-        <InputText id="po" @bind-Value="purchaseViewModel.PONumber" class="form-control"></InputText>
+          
+        <div class="input-group">
+            <span class="input-group-text">PURCHASE_Order#</span>
+            <InputText id="po"
+                       @bind-Value="purchaseViewModel.PONumber"
+                       class="form-control">
+            </InputText>
+        </div>
     </div>
     <br />
     <div class="card">

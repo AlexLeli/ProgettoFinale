@@ -7,6 +7,8 @@ using UseCases.Inventories;
 using UseCases.Inventories.Interfaces;
 using UseCases.Products;
 using UseCases.Products.Interfaces;
+using UseCases.Reports;
+using UseCases.Reports.Interfaces;
 
 namespace BlazorProgettoFinale
 {
@@ -40,6 +42,8 @@ namespace BlazorProgettoFinale
             builder.Services.AddSingleton<IProductTransactionRepository, ProductTransactionRepository>();
             builder.Services.AddTransient<IProduceProductUseCase, ProduceProductUseCase>();
             builder.Services.AddTransient<ISellProductUseCase, SellProductUseCase>();
+
+            builder.Services.AddTransient<ISearchInventoryTransactionUseCase, SearchInventoryTransactionUseCase>();
 
             var app = builder.Build();
 
