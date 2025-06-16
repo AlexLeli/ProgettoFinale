@@ -56,7 +56,7 @@ namespace PluginsInMemory
             
         }
 
-        public Task SellProductAsync(string salesOrderNumber, Product product, int quantity, string doneBy)
+        public Task SellProductAsync(string salesOrderNumber, Product product, int quantity, double unitPrice, string doneBy)
         {
             this._productTransactions.Add(new ProductTransaction
             {
@@ -66,7 +66,7 @@ namespace PluginsInMemory
                 ActivityType = ProductTransactionType.SellProduct,
                 QuantityAfter = product.Quantity - quantity,
                 TransactionDate = DateTime.UtcNow,
-                UnitPrice = product.Price,
+                UnitPrice = unitPrice,
                 DoneBy = doneBy
 
             });
