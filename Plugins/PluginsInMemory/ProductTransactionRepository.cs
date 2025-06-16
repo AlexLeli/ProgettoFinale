@@ -1,6 +1,7 @@
 ﻿using CoreBusiness;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,24 @@ namespace PluginsInMemory
                 DoneBy = doneBy,
             });
             
+        }
+
+        public Task SellProductAsync(string salesOrderNumber, Product product, int quantity, string doneBy)
+        {
+            this._productTransactions.Add(new ProductTransaction
+            {
+                SONumber = salesOrderNumber,
+                ProductId = product.ProductId,
+                QuantityBefore = product.Quantity,
+                ActivityType = ProductTransactionType.SellProduct,
+                QuantityAfter = product.Quantity - quantity,
+                TransactionDate = DateTime.UtcNow,
+                UnitPrice = product.Price,
+                DoneBy = doneBy
+
+            });
+
+            return Task.CompletedTask;
         }
     }
 }
